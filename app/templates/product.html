@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <title>Strona główna</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Ceneo</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav">
+            <li class="nav-item">
+               <a class="nav-link" href="ekstraction.html">Ekstrakcja opinii</a>
+               <a></a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="productslist.html">Lista produktów</a>
+            </li>
+            <li class="nav-item active">
+               <a class="nav-link" href="mainpage.html">Strona główna</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="author.html">O autorze</a>
+            </li>
+         </ul>
+      </div>
+   </nav>
+   <div class="container mt-4">
+      <h1>Strona produktu</h1>
+      <button id="download-csv-btn" class="btn btn-dark">Pobierz jako CSV</button>
+      <button id="download-xlsx-btn" class="btn btn-dark">Pobierz jako XLSX</button>
+      <button id="download-json-btn" class="btn btn-dark">Pobierz jako JSON</button>
+      <a href="{{ url_for('charts_page', product_id=product_id) }}" class="btn btn-dark">Wykresy</a>
+      <p style="margin-left: 20px">
+      <div class="container text-center">
+         <h2 class="text-center mt-4"></h2>
+         <div class="mb-3">
+         </div>
+         <table id="opinions-table" class="table table-hover" style="width:100%">
+            <thead class="thead-dark">
+               <tr>
+                  <th class="text-center">ID produktu</th>
+                  <th class="text-center">Autor</th>
+                  <th class="text-center">Rekomendacja</th>
+                  <th class="text-center">Liczba gwiazdek</th>
+                  <th class="text-center">Czy opinia jest potwierdzona zakupem</th>
+                  <th class="text-center">Data wystawienia opinii</th>
+                  <th class="text-center">Data zakupu produktu</th>
+                  <th class="text-center">Treść opinii</th>
+
+               </tr>
+            </thead>
+            <tbody>
+               {% for opinion in opinions %}
+               <tr>
+                  <td>{{ opinion.id_opinii }}</td>
+                  <td>{{ opinion.author }}</td>
+                  <td>{{ opinion. }}</td>
+                  <td>{{ opinion. }}</td>
+                  <td>{{ opinion. }}</td>
+                  <td>{{ opinion. }}</td>
+                  <td>{{ opinion. }}</td>
+                  <td>{{ opinion. }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+
+      
+      <script>
+         $(document).ready(function () {
+            const table = $('#opinions-table').DataTable();
+            $('.filter-input').on('keyup', function () {
+               const columnIndex = $(this).closest('th').index();
+               table.column(columnIndex).search(this.value).draw();
+            });
+            function arrayToCsv(data) {
+               const csvRows = [];
+               const headers = table.columns().header().toArray().map(header => $(header).text().trim());
+               csvRows.push(headers.join(','));
+
+               data.forEach(row => {
+                  const csvRow = row.map(value => escapeCsvValue(value));
+                  csvRows.push(csvRow.join(','));
+               });
+
+               return csvRows.join('\n');
+            }
+            function escapeCsvValue(value) {
+               if (typeof value === 'string') {
+                  value = value.replace(/"/g, '""');
+                  if (value.includes(',') || value.includes('\n') || value.includes('"')) {
+                     value = `"${value}"`;
+                  }
+               }
+               return value;
+            }
+            $('.dataTables_filter').addClass('btn btn-sm btn-dark');
+         });
+      </script>
+</body>
+
+</html>
