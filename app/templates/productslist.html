@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <title>Strona główna</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Ceneo</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav">
+            <li class="nav-item">
+               <a class="nav-link" href="ekstraction.html">Ekstrakcja opinii</a>
+               <a></a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="productslist.html">Lista produktów</a>
+            </li>
+            <li class="nav-item active">
+               <a class="nav-link" href="mainpage.html">Strona główna</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="author.html">O autorze</a>
+            </li>
+         </ul>
+      </div>
+   </nav>
+
+   <div class="container mt-4">
+      <h1>Lista produktów</h1>
+      <button id="download-csv-btn" class="btn btn-dark">Pobierz jako CSV</button>
+      <button id="download-xlsx-btn" class="btn btn-dark">Pobierz jako XLSX</button>
+      <button id="download-json-btn" class="btn btn-dark">Pobierz jako JSON</button>
+      <p style="margin-left: 20px">
+      <table class="table table-striped">
+         <thead class="table-dark">
+            <tr>
+               <th class="text-center">Nazwa produktu</th>
+               <th class="text-center">Liczba opinii</th>
+               <th class="text-center">Średnia ocena</th>
+               <th class="text-center">Liczba zalet</th>
+               <th class="text-center">Liczba wad</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for product in products %}
+            <tr class="table-{{ loop.cycle('light', 'secondary') }}">
+               <td class="text-center"><a href="{{ url_for('product_page', product_id=product.id) }}"
+                     style="color: #909090;">{{ product.name }}</a></td>
+               <td class="text-center">{{ product.whole_count_of_opinions }}</td>
+               <td class="text-center">{{ product.average_score }}</td>
+               <td class="text-center">{{ product.whole_count_of_pros }}</td>
+               <td class="text-center">{{ product.whole_count_of_cons }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
